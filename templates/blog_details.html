@@ -1,0 +1,200 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block title %} {% endblock title %} 
+
+{% block content %}
+
+<section class="blog-posts">
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8">
+          <div class="all-blog-posts">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="blog-post">
+                  <div class="blog-thumb">
+                    <img src="{{blog.blog_image.url}}" alt="">
+                  </div>
+                  <div class="down-content">
+                    <span>{{blog.category}}</span>
+                    <a href="javascript:void(0);"><h4>{{blog.title}}</h4></a>
+                    <ul class="post-info">
+                      <li><a href="javascript:void(0);">{{blog.user.username}}</a></li>
+                      <li><a href="javascript:void(0);">{{blog.created}}</a></li>
+                      <li><a href="javascript:void(0);">{{blog.blog_comments.all.count}} Comments</a></li>
+                    </ul>
+                    <p>{{blog.description}}</p>
+                    <div class="post-options">
+                      <div class="row">
+                        <div class="col-6">
+                          <ul class="post-tags">
+                            <li><i class="fa fa-tags"></i></li>
+                            {% if blog.tags.all.count > 0 %}
+                            {% for tag in blog.tags.all %}
+                            <li><a href="{% url 'tag_blogs' tag.slug %}">{{tag.title}}</a></li>
+                            {% endfor %}  
+                            {% else %}
+                            None
+                            {% endif %}
+                          </ul>
+                        </div>
+                        <div class="col-6">
+                          <ul class="post-share">
+                            <li class="pl-3 pr-3"><a href="#"><i class="fa fa-heart empty-heart"></i></a></li>
+                            <li><i class="fa fa-share-alt"></i></li>
+                            <li><a href="#">Facebook</a>,</li>
+                            <li><a href="#"> Twitter</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="sidebar-item comments">
+                  <div class="sidebar-heading">
+                    <h2>4 comments</h2>
+                  </div>
+                  <div class="content">
+                    <ul>
+
+                      <li>
+                        <div class="author-thumb">
+                          <img src="{% static 'images/comment-author-01.jpg'%}" alt="">
+                        </div>
+                        <div class="right-content">
+                          <h4>Charles Kate<span>May 16, 2020</span></h4>
+                          <p>Fusce ornare mollis eros. Duis et diam vitae justo fringilla condimentum eu quis leo. Vestibulum id turpis porttitor sapien facilisis scelerisque. Curabitur a nisl eu lacus convallis eleifend posuere id tellus.</p>
+                        </div>
+                      </li>
+                      <li class="replied">
+                        <div class="author-thumb">
+                          <img src="{% static 'images/comment-author-02.jpg'%}" alt="">
+                        </div>
+                        <div class="right-content">
+                          <h4>Thirteen Man<span>May 20, 2020</span></h4>
+                          <p>In porta urna sed venenatis sollicitudin. Praesent urna sem, pulvinar vel mattis eget.</p>
+                        </div>
+                      </li>
+                      
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="sidebar-item submit-comment">
+                  <div class="sidebar-heading">
+                    <h2>Your comment</h2>
+                  </div>
+                  <div class="content">
+                    <form id="comment" action="#" method="post">
+                      <div class="row">
+                        <div class="col-md-6 col-sm-12">
+                          <fieldset>
+                            <input name="name" type="text" id="name" placeholder="Your name" required="">
+                          </fieldset>
+                        </div>
+                        <div class="col-md-6 col-sm-12">
+                          <fieldset>
+                            <input name="email" type="text" id="email" placeholder="Your email" required="">
+                          </fieldset>
+                        </div>
+                        <div class="col-md-12 col-sm-12">
+                          <fieldset>
+                            <input name="subject" type="text" id="subject" placeholder="Subject">
+                          </fieldset>
+                        </div>
+                        <div class="col-lg-12">
+                          <fieldset>
+                            <textarea name="message" rows="6" id="message" placeholder="Type your comment" required=""></textarea>
+                          </fieldset>
+                        </div>
+                        <div class="col-lg-12">
+                          <fieldset>
+                            <button type="submit" id="form-submit" class="main-button">Submit</button>
+                          </fieldset>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-4">
+          <div class="sidebar">
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="sidebar-item search">
+                  <form id="search_form" name="gs" method="GET" action="#">
+                    <input type="text" name="q" class="searchText" placeholder="type to search..." autocomplete="on">
+                  </form>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="sidebar-item recent-posts">
+                  <div class="sidebar-heading">
+                    <h2>Related Posts</h2>
+                  </div>
+                  <div class="content">
+                    <ul>
+
+                      <!-- related post iterate -->
+                      {% for blog in related_blogs %}
+                      <li><a href="{% url 'blog_details' blog.slug %}">
+                        <h5>{{blog.title}}</h5>
+                        <span>{{blog.created}}</span>
+                      </a></li>
+                      {% endfor %}
+                      <!-- related post iterate end  -->
+
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="sidebar-item categories">
+                  <div class="sidebar-heading">
+                    <h2>Categories</h2>
+                  </div>
+                  <div class="content">
+                    <ul>
+
+                      <!-- Category iterate -->
+                      {% for category in categories %}
+                      <li><a href="{% url 'category_blogs' category.slug %}">- {{category.title}}</a></li>
+                      {% endfor %}
+                     <!--  Category iterate end  -->
+
+                    </ul>
+                  </div>
+                </div>
+              </div>
+              <div class="col-lg-12">
+                <div class="sidebar-item tags">
+                  <div class="sidebar-heading">
+                    <h2>Tag Clouds</h2>
+                  </div>
+                  <div class="content">
+                    <ul>
+
+                      <!-- Tag iterate -->
+                      {% for tag in tags %}
+                      <li><a href="{% url 'tag_blogs' tag.slug %}">{{tag.title}}</a></li>
+                      {% endfor %}
+                      <!-- tag iterate end -->
+
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+{% endblock content %}
