@@ -54,29 +54,60 @@
               <div class="col-lg-12">
                 <div class="sidebar-item comments">
                   <div class="sidebar-heading">
-                    <h2>4 comments</h2>
+                    <h2>{{blog.blog_comments.count}} comments</h2>
                   </div>
                   <div class="content">
-                    <ul>
+                    <ul class="d-flex flex-column">
 
+                      <!-- comment ieterated -->
+                      {% for comment in blog.blog_comments.all %}
                       <li>
                         <div class="author-thumb">
-                          <img src="{% static 'images/comment-author-01.jpg'%}" alt="">
+                          <img src="{{comment.user.get_profile_picture}}" alt="">
                         </div>
                         <div class="right-content">
-                          <h4>Charles Kate<span>May 16, 2020</span></h4>
-                          <p>Fusce ornare mollis eros. Duis et diam vitae justo fringilla condimentum eu quis leo. Vestibulum id turpis porttitor sapien facilisis scelerisque. Curabitur a nisl eu lacus convallis eleifend posuere id tellus.</p>
+                          <h4>{{comment.user.username}}<span>{{comment.created}}</span></h4>
+                          <p>{{comment.text}}</p>
+
+                          <form class="submit-reply my-2" id="comment" action="{% url 'add_reply' blog.id comment.id %}" method="POST">
+                            {% csrf_token %}
+                            <div class="row">
+                              <div class="col-lg-12">
+                                <fieldset>
+                                  {% if request.user.is_authenticated %}
+                                  <textarea name="text" rows="2" cols="100" id="message" placeholder="Type your reply" required=""></textarea>
+                                </fieldset>
+                              </div>
+                              <div class="col-lg-12">
+                                <fieldset>
+                                  <button type="submit" id="form-submit" class="main-button reply-button">Reply</button>
+                                  {% else %}
+                                  <a href="" id="form-submit" class="main-button reply-button">Login to reply</a>
+                                  {% endif %}
+                                </fieldset>
+                              </div>
+                            </div>
+                          </form>
+
                         </div>
                       </li>
+
+                      <!-- reply ieterated  -->
+                      {% for reply in comment.comment_replies.all %}
                       <li class="replied">
                         <div class="author-thumb">
-                          <img src="{% static 'images/comment-author-02.jpg'%}" alt="">
+                          <img src="{{reply.user.get_profile_picture}}" alt="">
                         </div>
                         <div class="right-content">
-                          <h4>Thirteen Man<span>May 20, 2020</span></h4>
-                          <p>In porta urna sed venenatis sollicitudin. Praesent urna sem, pulvinar vel mattis eget.</p>
+                          <h4>{{reply.user.username}}<span>{{reply.created}}</span></h4>
+                          <p>{{reply.text}}</p>
                         </div>
                       </li>
+                      {% endfor %}
+                      <!-- reply ieterated ends -->
+
+                      {% endfor %}
+                      <!-- comment ieterated ends -->
                       
                     </ul>
                   </div>
@@ -88,36 +119,27 @@
                     <h2>Your comment</h2>
                   </div>
                   <div class="content">
-                    <form id="comment" action="#" method="post">
+                    <form id="comment" action="{% url 'blog_details' blog.slug %}" method="POST">
+                      {% csrf_token %}
                       <div class="row">
-                        <div class="col-md-6 col-sm-12">
-                          <fieldset>
-                            <input name="name" type="text" id="name" placeholder="Your name" required="">
-                          </fieldset>
-                        </div>
-                        <div class="col-md-6 col-sm-12">
-                          <fieldset>
-                            <input name="email" type="text" id="email" placeholder="Your email" required="">
-                          </fieldset>
-                        </div>
-                        <div class="col-md-12 col-sm-12">
-                          <fieldset>
-                            <input name="subject" type="text" id="subject" placeholder="Subject">
-                          </fieldset>
-                        </div>
                         <div class="col-lg-12">
                           <fieldset>
-                            <textarea name="message" rows="6" id="message" placeholder="Type your comment" required=""></textarea>
+                            {% if request.user.is_authenticated %}
+                            <textarea name="text" rows="6" id="message" placeholder="Type your comment" required=""></textarea>
                           </fieldset>
                         </div>
                         <div class="col-lg-12">
                           <fieldset>
                             <button type="submit" id="form-submit" class="main-button">Submit</button>
+                            {% else %}
+                            <a href="" id="form-submit" class="main-button">Login to comment</a>
+                            {% endif %}
                           </fieldset>
                         </div>
                       </div>
                     </form>
                   </div>
+                  
                 </div>
               </div>
             </div>
