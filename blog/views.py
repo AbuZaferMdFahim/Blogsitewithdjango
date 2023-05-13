@@ -1,5 +1,6 @@
 from django.shortcuts import render,redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.http.response import JsonResponse
 from django.core.paginator import PageNotAnInteger, EmptyPage, Paginator
 from .models import Blog, Tag, Category, Comment, Reply
 from .forms import TextForm  
@@ -68,6 +69,7 @@ def tag_blogs(request,slug):
 def blog_details(request,slug):
     form = TextForm()
     blog = get_object_or_404(Blog, slug=slug)
+    liked_by = request.user in blog.likes.all()
     category = Category.objects.get(id = blog.category.id)
     related_blogs = category.category_blogs.all()
     tags = Tag.objects.order_by('created')[:4]
@@ -78,10 +80,10 @@ def blog_details(request,slug):
             Comment.objects.create(user = request.user, blog_comment = blog, text = form.cleaned_data.get('text'))
             return redirect('blog_details', slug=slug)        
 
-    context = {"blog": blog, "related_blogs": related_blogs, "tags": tags, "form": form}
+    context = {"blog": blog, "related_blogs": related_blogs, "tags": tags, "form": form, "liked_by" : liked_by}
     return render(request, 'blog_details.html', context)
 
-@login_required(login_url='login')
+@login_required(login_url='/')
 def add_reply(request, blog_id, comment_id):
     blog = get_object_or_404(Blog, id=blog_id)
     if request.method == "POST":
@@ -94,3 +96,19 @@ def add_reply(request, blog_id, comment_id):
                 text=form.cleaned_data.get('text')
             )
     return redirect('blog_details', slug=blog.slug)
+
+@login_required(login_url='/')
+def likeblog(request,pk):
+    blog = get_object_or_404(Blog,pk=pk)
+    context = {}
+
+    if request.user in blog.likes.all():
+        blog.likes.remove(request.user)
+        context['liked'] = False
+        context['like_count'] = blog.likes.all().count()
+    else:
+        blog.likes.add(request.user)
+        context['liked'] = True
+        context['like_count'] = blog.likes.all().count()
+    
+    return JsonResponse(context, safe = False)

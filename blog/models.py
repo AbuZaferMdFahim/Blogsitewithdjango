@@ -33,7 +33,7 @@ class Blog(models.Model):
     user = models.ForeignKey(User, related_name="user_blogs",on_delete=models.CASCADE)
     category = models.ForeignKey(Category,related_name="category_blogs",on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag,related_name="tag_blogs",blank=True)
-    blog = models.ManyToManyField(User,related_name="user_likes", blank=True)
+    likes = models.ManyToManyField(User,related_name="user_likes", blank=True)
     title = models.CharField(max_length=140)
     slug = models.SlugField(null=True,blank=True)
     blog_image = models.ImageField(upload_to="blog_images")
