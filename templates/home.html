@@ -23,11 +23,11 @@
                     <span>{{blog.category}}</span>
                     <a href=""><h4>{{blog.title}}</h4></a>
                     <ul class="post-info">
-                      <li><a href="#">{{blog.user.username}}</a></li>
+                      <li><a href="{% url 'userinformation' blog.user.username %}">{{blog.user.username}}</a></li>
                       <li><a href="#">{{blog.created}}</a></li>
                       <li><a href="#">{{blog.blog_comments.all.count}} Comments</a></li>
                     </ul>
-                    <p>{{blog.description|truncatewords:50}}</p>
+                    <!-- <p>{{blog.description|truncatewords:50}}</p> -->
                     <div class="post-options">
                       <div class="row">
                         <div class="col-6">

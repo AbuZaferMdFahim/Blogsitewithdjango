@@ -26,11 +26,11 @@
                     <span>{{blog.category}}</span>
                     <a href="javascript:void(0);"><h4>{{blog.title}}</h4></a>
                     <ul class="post-info">
-                      <li><a href="javascript:void(0);">{{blog.user.username}}</a></li>
+                      <li><a href="{% url 'userinformation' blog.user.username %}">{{blog.user.username}}</a></li>
                       <li><a href="javascript:void(0);">{{blog.created}}</a></li>
                       <li><a href="javascript:void(0);">{{blog.blog_comments.all.count}} Comments</a></li>
                     </ul>
-                    <p>{{blog.description}}</p>
+                    <p>{{blog.description|safe}}</p>
                     <div class="post-options">
                       <div class="row">
                         <div class="col-6">

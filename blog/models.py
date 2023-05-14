@@ -1,18 +1,21 @@
 from django.db import models
+from django.utils.text import slugify
+
 from user.models import User
 from .slugs import generate_unique_slug
-from django.utils.text import slugify
+
+from ckeditor.fields import RichTextField
 
 
 # Create your models here.
 class Category(models.Model):
-    title = models.CharField(max_length=150,unique=True)
-    slug = models.SlugField(null=True,blank=True)
-    created = models.DateField(auto_now_add=True) 
+    title = models.CharField(max_length=150, unique=True)
+    slug = models.SlugField(null=True, blank=True)
+    created = models.DateField(auto_now_add=True)
 
     def __str__(self) -> str:
         return self.title
-    
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super().save(*args, **kwargs)
@@ -20,12 +23,12 @@ class Category(models.Model):
 
 class Tag(models.Model):
     title = models.CharField(max_length=150)
-    slug = models.SlugField(null=True,blank=True)
-    created = models.DateField(auto_now_add=True) 
+    slug = models.SlugField(null=True, blank=True)
+    created = models.DateField(auto_now_add=True)
 
     def __str__(self) -> str:
-        return self.title
-    
+        return self.title    
+
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         super().save(*args, **kwargs)
@@ -35,19 +38,20 @@ class Blog(models.Model):
     category = models.ForeignKey(Category,related_name="category_blogs",on_delete=models.CASCADE)
     tags = models.ManyToManyField(Tag,related_name="tag_blogs",blank=True)
     likes = models.ManyToManyField(User,related_name="user_likes", blank=True)
-    title = models.CharField(max_length=140)
+    title = models.CharField(max_length=250)
     slug = models.SlugField(null=True,blank=True)
     blog_image = models.ImageField(upload_to="blog_images")
-    description = models.TextField()
+    description = RichTextField()
     created = models.DateField(auto_now_add=True)
     
     def __str__(self) -> str:
         return self.title
-    
+
     def save(self, *args, **kwargs):
         updating = self.pk is not None
+        
         if updating:
-            self.slug = generate_unique_slug(self, self.title,update = True)
+            self.slug = generate_unique_slug(self, self.title, update=True)
             super().save(*args, **kwargs)
         else:
             self.slug = generate_unique_slug(self, self.title)

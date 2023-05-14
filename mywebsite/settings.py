@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',
     'user',
+    'ckeditor',
 ]
 
 MIDDLEWARE = [
@@ -53,6 +54,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'blog.context_processors.get_all_categories',
+                
             ],
         },
     },
@@ -100,6 +102,8 @@ TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
+USE_L10N = True
+
 USE_TZ = True
 
 
@@ -118,8 +122,3 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'user.USer'
 
-""" AUTHENTICATION_BACKENDS = (
-    "user.backends.EmailAuthenticationBackend",
-    "django.contrib.auth.backends.ModelBackend"
-)
- """

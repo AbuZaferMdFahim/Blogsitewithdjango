@@ -1,0 +1,32 @@
+{% extends 'main.html' %}
+{% load static %}
+{% block title %} My Profile {% endblock title %} 
+
+{% block content %}
+
+<section class="profile">
+    <div class="container-fluid">
+        <div class="row py-5">
+            <div class="col-md-4">
+                <div class="text-center">
+                    <img class="rounded rounded-circle profile-picture" src="{{account.get_profile_picture}}" alt="">
+                    <ul class="text-center py-3">
+                        <li class="py-2">
+                            <span>Posts: <strong>{{account.user_blogs.count}}</strong></span>
+                        </li>
+                        <li class="py-2">
+                            <span>Follwers: <strong>{{account.followers.all.count}}</strong></span>
+                        </li>
+                        <li class="py-2">
+                            <span>Following: <strong>{{account.user_follows.all.count}}</strong></span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="text-center pt-2 pb-1">
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock content %}

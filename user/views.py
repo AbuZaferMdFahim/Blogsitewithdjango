@@ -86,3 +86,9 @@ def change_profile_image(request):
             user.save()
             messages.success(request, "Profile Image Updated Succesfully")
     return redirect('profile')
+
+def userinformation(request,username):
+    account = get_object_or_404(User,username=username)
+
+    context = {"account": account}
+    return render(request, "user_information.html", context)
