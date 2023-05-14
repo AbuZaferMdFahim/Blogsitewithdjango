@@ -14,9 +14,7 @@
             <li class="nav-item">
               <a class="nav-link" href="{% url 'blogs' %}">Blogs</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="post-details.html">Post Details</a>
-            </li>
+            
 
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -31,10 +29,38 @@
               </div>
             </li>
 
-            <li class="nav-item">
-              <a class="nav-link" href="contact.html">Login</a>
+            <!-- loginoption -->
+            {% if request.user.is_authenticated %}
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                {{request.user.username}}
+              </a>
+              <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                
+                
+                <a class="dropdown-item" href="{% url 'profile' %}">My Profile</a>
+                <a class="dropdown-item" href="#">Notification</a>
+                <a class="dropdown-item" href="{% url 'logout_user' %}">Logout</a>
+             
+
+              </div>
             </li>
+
+            {% else %}
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'login_user' %}">Login</a>
+            </li>
+            {% endif %}
           </ul>
+          <!-- loginoption end -->
+
+          <!-- Searchform -->
+          <form class="form-inline d-flex flex-nowrap my-2 ml-auto search-form" action="{% url 'search_blogs' %}" method="GET">
+            <input class="form-control px-3" name="search" type="text" placeholder="search" required>
+            <button class="btn btn-primary ml-1">Search</button>
+          </form>
+          <!-- Searchform end -->
+
         </div>
       </div>
     </nav>

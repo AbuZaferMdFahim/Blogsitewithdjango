@@ -31,9 +31,55 @@
     border: none;
     outline: none;
 }
- .fa .fa-heart{
+
+.fa-heart{
     color: red !important;
 }
+
 .empty-heart{
     color: #CDCDCD !important;
+}
+
+.btn-primary {
+    display: inline-block;
+    background-color: #f48840;
+    color: #fff;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 12px 20px;
+    text-transform: uppercase;
+    transition: all .3s;
+    border: none;
+    outline: none;
+}
+
+.col .textdibo{
+    text-transform: none;
+}
+
+.errorlist {
+    color: red !important;
+    padding-bottom: 10px !important;
+}
+
+.contact-us .contact-form input {
+    margin-bottom: 10px !important;
+}
+
+input, textarea {
+    text-transform: none !important;
+}
+
+.profile-picture {
+    max-width: 100%;
+    width: 180px;
+    height: 180px;
+}
+
+.owl-banner {
+    padding: 47px !important;
+}
+
+.owl-carousel .owl-item img {
+    height: 440px !important;
 }

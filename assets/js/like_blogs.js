@@ -16,6 +16,7 @@ likeicon.onclick = () => {
     .then(data => {
         if(data.liked){
             likeicon.classList.remove('empty-heart')
+            
         }
         else {
             likeicon.classList.add('empty-heart')

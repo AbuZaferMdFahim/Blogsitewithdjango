@@ -9,4 +9,8 @@ urlpatterns = [
     path('blogs/<str:slug>/', blog_details, name='blog_details'),
     path('blogs/<int:blog_id>/<int:comment_id>/', add_reply, name='add_reply'),
     path('likeblogs/<int:pk>/', likeblog, name='likeblog'),
+    path('search_blogs/', search_blogs,name="search_blogs"),
+    path('myblogs/', myblogs,name="myblogs"),
+    path('addblogs/', addblogs,name="addblogs"),
+    path('updateblogs/<str:slug>/', updateblogs,name="updateblogs"),
 ]

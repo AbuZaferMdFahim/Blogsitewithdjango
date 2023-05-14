@@ -871,7 +871,7 @@ footer p a:hover {
 	height: 46px;
 	border: 1px solid #eee;
 	font-size: 13px;
-	text-transform: uppercase;
+	text-transform: none;
 	font-weight: 500;
 	color: #7a7a7a;
 	outline: none;
@@ -884,7 +884,7 @@ footer p a:hover {
 	height: 46px;
 	border: 1px solid #eee;
 	font-size: 13px;
-	text-transform: uppercase;
+	text-transform: none;
 	font-weight: 500;
 	color: #7a7a7a;
 	outline: none;
