@@ -24,8 +24,8 @@
                     <a href="{% url 'blog_details' blog.slug %}"><h4>{{blog.title}}</h4></a>
                     <ul class="post-info">
                       <li><a href="{% url 'userinformation' blog.user.username %}">{{blog.user.username}}</a></li>
-                      <li><a href="#">{{blog.created}}</a></li>
-                      <li><a href="#">{{blog.blog_comments.all.count}} Comments</a></li>
+                      <li><a href="">{{blog.created}}</a></li>
+                      <li><a href="{% url 'blog_details' blog.slug %}">{{blog.blog_comments.all.count}} Comments</a></li>
                     </ul>
                     <!-- <p>{{blog.description|truncatewords:50}}</p> -->
                     <div class="post-options">
