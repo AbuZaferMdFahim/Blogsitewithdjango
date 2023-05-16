@@ -3,8 +3,8 @@ from django.contrib import messages
 from django.contrib.auth import login, logout, authenticate
 from django.views.decorators.cache import never_cache
 from django.contrib.auth.decorators import login_required
-from .models import User
-
+from .models import User,Follow
+from notification.models import Notification 
 from .forms import UserRegistrationForm, LoginForm, UserProfileUpdateForm,ProfileImageUpdateForm
 from .decorators import not_logged_in_required
 
@@ -89,6 +89,75 @@ def change_profile_image(request):
 
 def userinformation(request,username):
     account = get_object_or_404(User,username=username)
+    
+    following = False
+    muted = None
 
-    context = {"account": account}
-    return render(request, "user_information.html", context)
+
+
+    if request.user.is_authenticated:
+        if request.user.id == account.id:
+            return redirect("profile")
+            
+        followers = account.followers.filter(followed_by_id = request.user.id)
+
+        if followers.exists():
+           following =True
+
+    if following:
+        queryset = followers.first()
+        if queryset.muted:
+            muted = True
+        else: 
+            muted = False    
+
+    context = {"account": account, "following": following, "muted": muted}
+    return render(request, "userinformation.html", context)
+
+@login_required(login_url= "login_user")
+def follow_unfollow_user(request, user_id):
+    followed = get_object_or_404(User, id = user_id)
+    followed_by = get_object_or_404(User, id = request.user.id)
+
+    follow,created = Follow.objects.get_or_create(
+        followed = followed,
+        followed_by = followed_by
+    )
+
+    if created:
+        followed.followers.add(follow)
+    else:
+        followed.followers.remove(follow)
+        follow.delete()
+    
+    return redirect("userinformation", username = followed.username)
+
+@login_required(login_url="login_user")
+def notification(request):
+    notifications = Notification.objects.filter(
+        user=request.user,
+        is_seen=False
+    )
+
+    for notification in notifications:
+        notification.is_seen = True
+        notification.save()
+
+    return render(request, "notification.html")
+
+def mute(request, user_id):
+    user = get_object_or_404(User, pk = user_id)
+    follower = get_object_or_404(User, pk = request.user.pk)
+    instance = get_object_or_404(Follow, followed = user, followed_by = follower) 
+
+    if instance.muted:
+        instance.muted = False
+        instance.save()
+
+    else:
+        instance.muted = True
+        instance.save()
+
+    return redirect('userinformation', username = user.username)   
+
+

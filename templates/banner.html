@@ -12,7 +12,7 @@
               <div class="meta-category">
                 <span>{{blog.category}}</span>
               </div>
-              <a href=""><h4>{{blog.title}}</h4></a>
+              <a href="{% url 'blog_details' blog.slug %}"><h4>{{blog.title}}</h4></a>
               <ul class="post-info">
                 <li><a href="#">{{blog.user.username}}</a></li>
                 <li><a href="#">{{blog.created}}</a></li>

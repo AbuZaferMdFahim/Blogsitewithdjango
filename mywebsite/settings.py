@@ -27,7 +27,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'blog',
     'user',
+    'notification',
     'ckeditor',
+    
 ]
 
 MIDDLEWARE = [
@@ -54,6 +56,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'blog.context_processors.get_all_categories',
+                'user.context_processors.user_notification',
                 
             ],
         },
@@ -121,4 +124,9 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'user.USer'
+
+AUTHENTICATION_BACKENDS = (
+    "user.backends.EmailAuthentication",
+    "django.contrib.auth.backends.ModelBackend"
+)
 

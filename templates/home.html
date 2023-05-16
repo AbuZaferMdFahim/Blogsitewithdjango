@@ -21,7 +21,7 @@
                   </div>
                   <div class="down-content">
                     <span>{{blog.category}}</span>
-                    <a href=""><h4>{{blog.title}}</h4></a>
+                    <a href="{% url 'blog_details' blog.slug %}"><h4>{{blog.title}}</h4></a>
                     <ul class="post-info">
                       <li><a href="{% url 'userinformation' blog.user.username %}">{{blog.user.username}}</a></li>
                       <li><a href="#">{{blog.created}}</a></li>

@@ -10,7 +10,7 @@
               <ul>
                 
                 {% for blog in blogs|slice:"3" %}
-                <li><a href="">
+                <li><a href="{% url 'blog_details' blog.slug %}">
                   <h5>{{blog.title}}</h5>
                   <span>{{blog.created}}</span>
                 </a></li>
