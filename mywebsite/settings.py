@@ -17,7 +17,7 @@ SECRET_KEY = 'django-insecure-09dn4xlomq8l17sboejnrzj6kcz3xy2lmj4nstvwmt-4y6j)68
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['mywebsite.vercel.app']
 
 
 # Application definition
@@ -77,6 +77,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': BASE_DIR / 'db.sqlite3',
+        'default': dj_database_url.config(default='sqlite:///:memory:'),
     }
 }
 
